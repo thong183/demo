@@ -1,0 +1,211 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<script>
+    console.log(@Model.changeText("Tú đội"));
+</script>
+<!-- Top News Start-->
+<div class="top-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 tn-left">
+                <div class="row tn-slider">
+                    @foreach (var item in Model.GetPopularBlogsOnMonth(3,0).Result)
+                    {
+                        <div class="col-md-6">
+                            <div class="tn-img" style="width:525px;height:334px">
+             
+                                <img src="@item.ImageTitleId" />
+                                <div class="tn-title">
+                                    <a href="@Model.getDetailUrl(item.TitleUrl)">@item.Title</a>
+                                </div>
+                            </div>
+                        </div>
+                                    }
+                    </div>
+            </div>
+            <div class="col-md-6 tn-right">
+                <div class="row">
+                    @foreach (var blog in Model.GetTopNewestBlog(4).Result) { 
+                    <div class="col-md-6">
+                        <div class="tn-img" style="width:270px;height:172px">
+                            
+                            <img src="@blog.ImageTitleId" />
+                            <div class="tn-title">
+                                <a href="@Model.getDetailUrl(blog.TitleUrl)">@blog.Title</a>
+                            </div>
+                        </div>
+                    </div>}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Tab News Start-->
+<div class="tab-news">
+    <div class="container">
+        <div class="row-md-1">
+            <div class="col-md-12">
+                <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="pill" href="#featured">Tin tức nổi bật</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#popular">Tin tức phổ biến</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" href="#latest">Tin tức mới nhất trong tháng</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="featured" class="container tab-pane active">
+                        @foreach (var item in Model.GetTopHotBlog(3).Result)
+                        {
+                            <div class="tn-news">
+                                <div class="tn-img">
+                                    <a href ="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:150px;height:96px" /></a>
+                                </div>
+                                <div class="tn-title">
+                                    <a href="@Model.getDetailUrl(item.TitleUrl)">@item.Title</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div id="popular" class="container tab-pane fade">
+                        @foreach(var item in Model.GetPopularBlogsOnDay(3, 0).Result) { 
+                            <div class="tn-news">
+                                <div class="tn-img">
+                                    <a href="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:150px;height:96px" /></a>
+                                </div>
+                                <div class="tn-title">
+                                    <a href="">@item.Title</a>
+                                </div>
+                            </div>
+                             }
+                        </div>
+                    <div id="latest" class="container tab-pane fade">
+                        @foreach (var item in Model.GetTopNewestBlog(3).Result)
+                        {
+                            <div class="tn-news">
+                                <div class="tn-img">
+                                    <a href="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:150px;height:96px" /></a>
+                                </div>
+                                <div class="tn-title">
+                                    <a href="@Model.getDetailUrl(item.TitleUrl)">@item.Title</a>
+                                </div>
+                            </div>
+                        }
+                    </div>   
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+<!-- Tab News Start-->
+<!-- Top News End-->
+<!-- Category News Start-->
+
+<div class="cat-news">
+    <div class="container">
+        <div class="row">
+            @foreach (var cate in Model.GetListCategory().Result)
+            {
+                var item = Model.GetListChildCategory(cate.Id).Result;
+                <div class="col-md-6">
+                    <div class="row">
+                        <a href="@Model.getCategoryUrl(cate.CategoryUrl)"><h2 style="color:#ff0000">@cate.Name</h2></a>
+
+                        @for (int i = 0; i < item.Count; i++)
+                        {
+
+                            if (i < 2 )
+                            {
+                                <a href="@Model.getCategoryUrl(item[i].CategoryUrl)"><h5 style="font-size:14px;color:#b200ff"> @item[i].Name |</h5></a>
+                            }
+                            else
+                            {
+                                <a href="@Model.getCategoryUrl(cate.CategoryUrl)"><h5 style="font-size:14px;color:#b200ff"> Xem Thêm </h5></a>
+                                break;
+                            }
+
+                        }
+                    </div>
+                    <div class="row cn-slider">
+                        @foreach (var blog in Model.GetListBlogByCategory(cate.CategoryUrl).Result)
+                        {
+                            <div class="col-md-6">
+                                <div class="cn-img" style="width:248px;height:158px">
+                                    
+                                    <img src="@blog.ImageTitleId" />
+                                    <div class="cn-title">
+                                        <a href="@Model.getDetailUrl(blog.TitleUrl)">@blog.Title</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-6">
+                            <div class="cn-img">
+                                <img src="img/news-350x223-4.jpg" />
+                                <div class="cn-title">
+                                    <a href="">Lorem ipsum dolor sit</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="cn-img">
+                                <img src="img/news-350x223-3.jpg" />
+                                <div class="cn-title">
+                                    <a href="">Lorem ipsum dolor sit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Category News End-->
+<!-- Category News Start-->
+<!-- Category News End-->
+<!-- Main News Start-->
+<div class="main-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="row">
+                    @foreach(var blog in Model.GetPopularBlogsOnMonth(9, 0).Result)
+                    {
+                    <div class="col-md-4">
+                        <div class="mn-img" >
+                            <img src="@blog.ImageTitleId" width="248px" height="158px"/>
+                            <div class="mn-title">
+                                <a href="@Model.getDetailUrl(blog.TitleUrl)">@blog.Title</a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="mn-list">
+                    <h2>Người đọc khác cũng quan tâm</h2>
+                    <ul>
+                        @foreach (var item in Model.GetPopularBlogsOnMonth(5, 1).Result)
+                        {
+                            <li><a href="@Model.getDetailUrl(item.TitleUrl)">@item.Title</a></li>
+                        }
+                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main News End-->

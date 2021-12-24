@@ -1,0 +1,69 @@
+﻿@page "{CateUrl}"
+@model Acme.News_Website.UI.Pages.ListBlog.IndexModel
+@{
+}
+<div class="row">
+    <a>@Model.Category.Name | &nbsp;</a>
+    @foreach (var cate in Model.Category.Childs)
+    {
+        <a href="@Model.getCategoryUrl(cate.CategoryUrl)">@cate.Name &nbsp;</a>
+    }
+</div>
+@if (Model.listBlogOnCategory.Count == 0)
+{
+    <div class="align-content-md-center" style="height:300px;position:relative;text-align:center">
+        <h2 style="margin-top:190px; color:#ff006e;opacity:0.4"> Danh mục chưa có bài viết nào ! <br /> Vui lòng chọn danh mục khác </h2>
+    </div>
+
+}
+@foreach (var item in Model.listBlogOnCategory)
+{
+
+
+    <div class="tn-news" style="margin :10px 0 10px 0; padding:10px">
+        <div class="row">
+            <div class="tn-img" style="width:20%">
+                <a href="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:100%;height:155px;" /></a>
+            </div>
+            <div class="tn-title" style="width:78%;margin-left:2%">
+                <a href="@Model.getDetailUrl(item.TitleUrl)">@item.Title</a> <br />
+                <a href="@Model.getDetailUrl(item.TitleUrl)" style="font-size:13px;color:black;margin-left:1%">@item.SubTitle</a> <br />
+                <div class="row" style="margin-left: 20px;font-size: 10px;color:darkgray">
+                    Tác giả : <p><a href="@Model.getAuthorListBlog(item.AuthorUrl)">@item.AuthorName</a> &nbsp;</p><br />
+                    @{
+
+                        var time = DateTime.Now - item.CreationTime;
+                        var timeType = "Giây";
+                        var timeRemain = (int)time.TotalSeconds;
+                        if (timeRemain >= 60)
+                        {
+                            timeType = "Phút";
+                            timeRemain = (int)time.TotalMinutes;
+                            if (timeRemain >= 60)
+                            {
+                                timeType = "Giờ";
+                                timeRemain = (int)time.TotalHours;
+                                if (timeRemain >= 24)
+                                {
+                                    timeType = "Ngày";
+                                    timeRemain = (int)time.TotalDays;
+                                }
+                            }
+                        }
+
+                    }
+                    <i class="fab fa-clock"></i>Đã đăng : @timeRemain @timeType trước
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="@Model.GetListBlogByPage(Model.CategoryName,1)">1</a></li>
+        <li class="page-item"><a class="page-link" href="@Model.GetListBlogByPage(Model.CategoryName,2)">2</a></li>
+        <li class="page-item"><a class="page-link" href="@Model.GetListBlogByPage(Model.CategoryName,3)">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>

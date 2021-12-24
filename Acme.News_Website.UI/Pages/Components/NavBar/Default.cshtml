@@ -1,0 +1,42 @@
+﻿
+@model List<UI.Models.CategoryModel> 
+@{
+}
+<!-- Nav Bar Start -->
+<div class="nav-bar">
+    <div class="container">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <a href="#" class="navbar-brand">MENU</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto">
+                    
+                        <a href="https://localhost:44382/" style="color:white;text-align: center"><i class="fab fa-home"></i> Home </a>
+                        @foreach (var item in Model)
+                        {
+                            <div class="btn-group dropdown">
+                            <button type="button" class="btn btn-toolbar" style="background:none;border:none;color:white">
+                                <a style="color:white" href="@item.LinkTo">@item.Name</a>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:none;border:none">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                @foreach (var cate in item.Childs)
+                                {
+                                    <a href="@cate.LinkTo" class="dropdown-item">@cate.Name</a>
+                                }
+                            </div>
+                            </div>
+                        }
+                    <div class="social ml-auto">
+                        <a href=""><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+        </nav>
+    </div>
+</div>
+<!-- Nav Bar End -->

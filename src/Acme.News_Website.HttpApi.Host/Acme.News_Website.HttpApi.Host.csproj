@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Acme.News_Website</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>Acme.News_Website-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.*" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="4.2.2" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="4.2.2" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="4.2.2" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="4.2.2" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="4.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Acme.News_Website.Application\Acme.News_Website.Application.csproj" />
+    <ProjectReference Include="..\Acme.News_Website.EntityFrameworkCore.DbMigrations\Acme.News_Website.EntityFrameworkCore.DbMigrations.csproj" />
+    <ProjectReference Include="..\Acme.News_Website.HttpApi\Acme.News_Website.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Images\159211312_757538518528601_5051667806316138659_n_9944.jpg" />
+    <Content Remove="wwwroot\Images\159211312_757538518528601_5051667806316138659_n_9c03.jpg" />
+    <Content Remove="wwwroot\Images\169105848_355635759137918_2744307437476358975_n_5e02.jpg" />
+    <Content Remove="wwwroot\Images\169105848_355635759137918_2744307437476358975_n_be53.jpg" />
+    <Content Remove="wwwroot\Images\anime_05f7.jpg" />
+    <Content Remove="wwwroot\Images\anime_8ffb.jpg" />
+    <Content Remove="wwwroot\Images\download_9f35.jpg" />
+    <Content Remove="wwwroot\Images\image3_3997.png" />
+    <Content Remove="wwwroot\Images\image3_85ec.png" />
+    <Content Remove="wwwroot\Images\image3_8ffc.png" />
+    <Content Remove="wwwroot\Images\image3_93eb.png" />
+    <Content Remove="wwwroot\Images\image3_be5d.png" />
+    <Content Remove="wwwroot\Images\image3_f0e6.png" />
+    <Content Remove="wwwroot\Images\image3_f9fa.png" />
+    <Content Remove="wwwroot\Images\Meo_394d.jpg" />
+    <Content Remove="wwwroot\Images\Meo_7a67.jpg" />
+    <Content Remove="wwwroot\Images\Meo_b3f1.jpg" />
+    <Content Remove="wwwroot\Images\Meo_bbe2.jpg" />
+    <Content Remove="wwwroot\Images\News Database (1)_f7f7.jpg" />
+    <Content Remove="wwwroot\Images\News Database_5cd6.jpg" />
+    <Content Remove="wwwroot\Images\News Database_c53a.jpg" />
+    <Content Remove="wwwroot\Images\Pikachu_067e.jpg" />
+    <Content Remove="wwwroot\Images\Pikachu_8350.jpg" />
+    <Content Remove="wwwroot\Images\Pikachu_d6f2.jpg" />
+    <Content Remove="wwwroot\Images\Pikachu_da43.jpg" />
+    <Content Remove="wwwroot\Images\woft_ae53.jpg" />
+    <Content Remove="wwwroot\Images\woft_f546.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\159211312_757538518528601_5051667806316138659_n_9944.jpg" />
+    <None Include="wwwroot\Images\159211312_757538518528601_5051667806316138659_n_9c03.jpg" />
+    <None Include="wwwroot\Images\169105848_355635759137918_2744307437476358975_n_5e02.jpg" />
+    <None Include="wwwroot\Images\169105848_355635759137918_2744307437476358975_n_be53.jpg" />
+    <None Include="wwwroot\Images\anime_05f7.jpg" />
+    <None Include="wwwroot\Images\anime_8ffb.jpg" />
+    <None Include="wwwroot\Images\download_9f35.jpg" />
+    <None Include="wwwroot\Images\image3_3997.png" />
+    <None Include="wwwroot\Images\image3_85ec.png" />
+    <None Include="wwwroot\Images\image3_8ffc.png" />
+    <None Include="wwwroot\Images\image3_93eb.png" />
+    <None Include="wwwroot\Images\image3_be5d.png" />
+    <None Include="wwwroot\Images\image3_f0e6.png" />
+    <None Include="wwwroot\Images\image3_f9fa.png" />
+    <None Include="wwwroot\Images\Meo_394d.jpg" />
+    <None Include="wwwroot\Images\Meo_7a67.jpg" />
+    <None Include="wwwroot\Images\Meo_b3f1.jpg" />
+    <None Include="wwwroot\Images\Meo_bbe2.jpg" />
+    <None Include="wwwroot\Images\News Database (1)_f7f7.jpg" />
+    <None Include="wwwroot\Images\News Database_5cd6.jpg" />
+    <None Include="wwwroot\Images\News Database_c53a.jpg" />
+    <None Include="wwwroot\Images\Pikachu_067e.jpg" />
+    <None Include="wwwroot\Images\Pikachu_8350.jpg" />
+    <None Include="wwwroot\Images\Pikachu_d6f2.jpg" />
+    <None Include="wwwroot\Images\Pikachu_da43.jpg" />
+    <None Include="wwwroot\Images\woft_ae53.jpg" />
+    <None Include="wwwroot\Images\woft_f546.jpg" />
+  </ItemGroup>
+
+</Project>

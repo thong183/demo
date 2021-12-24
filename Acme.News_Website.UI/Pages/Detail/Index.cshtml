@@ -1,0 +1,235 @@
+﻿@page "{urlDetail}"
+@model Acme.News_Website.UI.Pages.Detail.IndexModel
+@{
+}
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '761810821140155',
+            cookie: true,
+            xfbml: true,
+            version: 'v10.0'
+        });
+
+        FB.AppEvents.logPageView();
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+
+            //$("#auth").html("<input name=" + "userFb" + " value=" + str + " hidden>");
+        });
+    }
+    debugger
+    function LikePost(idBlog) {
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44345/api/app/blog/like-post",
+            data: idBlog,
+            dataType: "jsonp",
+            success: function (res) {
+                //if request if made successfully then the response represent the data
+                console.log(res);
+            }
+        });
+    }
+</script>
+
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-wrap">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Model.RedirectHome()">Home</a></li>
+            @foreach (var parent in Model.detectParentName(Model.blog.IdCategory))
+            {
+                if (parent.Key == " ") break;
+                <li class="breadcrumb-item"><a href="@Model.getCategoryUrl(parent.Value)">@parent.Key</a></li>
+            }
+            <li class="breadcrumb-item"><a href="@Model.getCategoryUrl(Model.blog.CategoryUrl)">@Model.blog.CateName</a></li>
+        </ul>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Single News Start-->
+<div class="single-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="sn-container">
+                    <h1 class="sn-title" style="color:#0715f8">@Model.blog.Title</h1>
+                    <h5 class="sn-title">@Model.blog.SubTitle</h5>
+                    <div class="row" style="margin:10px 0 0 2px ">
+                        @{
+                            var point = Model.blog.CountLike;
+                        }
+                        <buttom onclick="console.log('hi')"><div class="fb-like" data-href="@Model.getDetailUrl(Model.blog.TitleUrl)" data-width="" data-send="true" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div></buttom>
+                        
+                        <p style="font-size :smaller">Ngày đăng :<div style="color:#0026ff;font-size :smaller">@Model.blog.CreationTime.Date.ToString("dddd, dd MMMM yyyy")</div>  &nbsp;</p>
+                        <p style="font-size :smaller">Tác giả :
+                            <div style="color:#ff006e;font-size :smaller">
+                                <a href="@Model.getAuthorListBlog(Model.blog.AuthorUrl)">@Model.blog.AuthorName</a>
+                            </div> 
+                        </p>
+                    </div>
+                    <div class="sn-img">
+                        <img src="@Model.blog.ImageTitleId" />
+                    </div>
+                    <div class="sn-content" style="margin:10px 0 10px 0">
+                        <p id="content">
+                            @Model.blog.Content
+                        </p>
+                        <script>
+                            ///debugger;
+                            var text = document.getElementById("content").innerHTML;
+                            text = text.replace(/]/g, '');
+                            text = text.replace(/"/g, '');
+                            text = text.replace(/&lt;/g, '<');
+                            text = text.replace(/&gt;/g, '>');
+
+
+                            text = text.replace(/&amp;lt;/g, '<');
+                            text = text.replace(/\/&amp;gt;/g, '>');
+                            document.getElementById("content").innerHTML = text;
+
+                        </script>
+                    </div>
+                </div>
+
+                <h3 style="color:#0026ff">Bình luận về bài viết</h3>
+
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="fb-comments" data-href="@Model.getDetailUrl(Model.blog.TitleUrl)" data-width="" data-numposts="1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="sidebar-widget">
+                        <h2 class="sw-title">Bài viết liên quan</h2>
+                        <div class="news-list">
+                            @{
+                                var blogs = Model.GetBlogsFromCateName(Model.blog.CategoryUrl);
+                                foreach (var blog in blogs)
+                                {
+                                    <div class="nl-item">
+                                        <div class="nl-img">
+                                            <img src="@blog.ImageTitleId" width="100px" height="63px" />
+                                        </div>
+                                        <div class="nl-title">
+                                            <a href="@Model.getDetailUrl(blog.TitleUrl)">@blog.Title</a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="sidebar-widget">
+
+                        <div class="tab-news">
+                            <div class="container">
+                                <div class="row-md-1">
+                                    <div class="col-md-12">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="pill" href="#featured" style="font-size:small">Tin tức nổi &nbsp; bật</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="pill" href="#popular" style="font-size:small">Tin tức phổ biến</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="pill" href="#latest" style="font-size:small">Tin tức mới nhất</a>
+                                            </li>
+                                        </ul>
+
+                                        <div class="tab-content">
+                                            <div id="featured" class="container tab-pane active">
+                                                @foreach (var item in Model.GetTopHotBlog(5).Result)
+                                                {
+                                                    <div class="tn-news">
+                                                        <div class="tn-img">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:110px;height:84px" /></a>
+                                                        </div>
+                                                        <div class="tn-title">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)" style="font-size:small">@item.Title</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div id="popular" class="container tab-pane fade">
+                                                @foreach (var item in Model.GetPopularBlogsOnMonth(5, 0).Result)
+                                                {
+                                                    <div class="tn-news">
+                                                        <div class="tn-img">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)"><img src="@item.ImageTitleId" style="width:110px;height:84px" /></a>
+                                                        </div>
+                                                        <div class="tn-title">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)" style="font-size:small">@item.Title</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div id="latest" class="container tab-pane fade">
+                                                @foreach (var item in Model.GetTopNewestBlog(5).Result)
+                                                {
+                                                    <div class="tn-news">
+                                                        <div class="tn-img">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)">
+                                                                <img src="@item.ImageTitleId" style="width:110px;height:84px" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="tn-title">
+                                                            <a href="@Model.getDetailUrl(item.TitleUrl)" style="font-size:small">@item.Title</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h2 class="sw-title">Danh mục mới cập nhật</h2>
+                        <div class="category">
+                            <ul>
+                                @foreach (var item in @Model.getNewstCategories(5).Result)
+                                {
+                                    <li><a href="@Model.getCategoryUrl(item.CategoryUrl)">@item.Name</a><span>@item.TotalBlog</span></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <fb:login-button scope="public_profile,email"
+                                     onlogin="checkLoginState();">
+                    </fb:login-button>
+                    <div class="sidebar-widget">
+                        <h2 class="sw-title">Danh sách tag</h2>
+                        <div class="tags">
+                            @foreach (var tag in Model.blog.TagName)
+                            {
+                                <a href="">@tag</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
